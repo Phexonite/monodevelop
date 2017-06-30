@@ -77,8 +77,12 @@ namespace MonoDevelop.CSharp
 
 		public override Task<TooltipInformation> GetTooltipInformation (CancellationToken token)
 		{
+			var theme = DefaultSourceEditorOptions.Instance.GetEditorTheme ();
+			var sb = new StringBuilder ();
+			TaggedTextUtil.AppendTaggedText (sb, theme, result.NavigableItem.DisplayTaggedParts);
+
 			return Task.FromResult (new TooltipInformation {
-				SignatureMarkup = result.Name,
+				SignatureMarkup = sb.ToString (),
 				SummaryMarkup = result.Summary,
 				FooterMarkup = result.AdditionalInformation,
 			});
